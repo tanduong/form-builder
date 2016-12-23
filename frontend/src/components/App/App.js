@@ -2,7 +2,8 @@ import "normalize.css";
 import "./App.scss";
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { resetErrorMessage } from '../actions';
+import { resetErrorMessage } from 'src/actions';
+import Section from 'src/components/Section';
 
 class App extends Component {
   static propTypes = {
@@ -39,6 +40,7 @@ class App extends Component {
       <div className="App">
         {this.renderErrorMessage()}
         Hello
+        <Section/>
       </div>
     )
   }
@@ -50,4 +52,4 @@ const mapStateToProps = ({ errorMessage }, ownProps) => {
   };
 }
 
-export default connect(mapStateToProps, {resetErrorMessage})(App)
+export default connect(mapStateToProps, {resetErrorMessage})(App);
