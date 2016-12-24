@@ -9,7 +9,7 @@ import rootSaga from './sagas';
 const preloadedState = {
   entities: {
     form: {
-      sections: [1, 2, 3]
+      title: "Hello"
     },
     sections: {
       records: {

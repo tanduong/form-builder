@@ -41,7 +41,6 @@ class App extends Component {
     return (
       <div className="App">
         {this.renderErrorMessage()}
-        Hello
         <main>
           <Form/>
         </main>

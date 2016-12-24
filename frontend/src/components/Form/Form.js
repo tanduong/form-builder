@@ -2,18 +2,48 @@ import './form.scss';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Section from 'src/components/Section';
-import { formSelector } from 'src/selectors';
+import {
+  formSelector,
+  sectionIdsAvailableSelector
+} from 'src/selectors';
 
 class Form extends Component {
   static propTypes = {
   };
 
+  constructor(props) {
+    super(props);
+
+    const {
+      form,
+      sections
+    } = props;
+
+    this.state = {
+      form,
+      sections
+    };
+  }
+
+  componentWillReceiveProps(props) {
+    const {
+      form,
+      sections
+    } = props;
+
+    console.log(form === this.state.form);
+
+    this.setState({
+      form,
+      sections
+    });
+  }
+
   render() {
     const {
-      form: {
-        sections
-      }
-    } = this.props;
+      form,
+      sections
+    } = this.state;
 
     return (
       <div className="Form">
@@ -27,7 +57,8 @@ class Form extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    form: formSelector(state)
+    form: formSelector(state),
+    sections: sectionIdsAvailableSelector(state)
   };
 }
 

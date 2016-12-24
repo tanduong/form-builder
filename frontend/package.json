@@ -61,7 +61,8 @@
     "react-router-redux": "^4.0.7",
     "react-select": "^1.0.0-rc.2",
     "redux": "^3.6.0",
-    "redux-saga": "^0.13.0"
+    "redux-saga": "^0.13.0",
+    "uuid": "^3.0.1"
   },
   "scripts": {
     "start": "node scripts/start.js",

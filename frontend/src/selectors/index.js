@@ -36,3 +36,13 @@ export const sectionsAvailableSelector = ({
 }) => (
   sections
 );
+
+export const sectionIdsAvailableSelector = ({
+  entities: {
+    sections: {
+      ids
+    }
+  }
+}) => (
+  ids
+);

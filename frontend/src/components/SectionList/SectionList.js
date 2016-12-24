@@ -1,17 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import SectionListItem from './SectionListItem';
-import { formSelector } from 'src/selectors';
+import { sectionIdsAvailableSelector } from 'src/selectors';
+import { createSection } from 'src/actions';
 
 class SectionList extends Component {
   static propTypes = {
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const sectionName = this.refs.sectionNameInput.value;
+    this.props.createSection(sectionName);
+  }
+
   render() {
     const {
-      form: {
-        sections
-      }
+      sections
     } = this.props;
 
     return (
@@ -20,6 +25,12 @@ class SectionList extends Component {
         {sections.map(sectionId => (
           <SectionListItem sectionId={sectionId} key={`section-list-item-${sectionId}`}/>
         ))}
+        <li>
+          <form onSubmit={this.handleSubmit}>
+            <input type="text" ref="sectionNameInput"/>
+            <button>ADD</button>
+          </form>
+        </li>
       </ol>
     )
   }
@@ -27,8 +38,10 @@ class SectionList extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    form: formSelector(state)
+    sections: sectionIdsAvailableSelector(state)
   };
 }
 
-export default connect(mapStateToProps, {})(SectionList);
+export default connect(mapStateToProps, {
+  createSection
+})(SectionList);
