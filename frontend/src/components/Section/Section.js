@@ -44,13 +44,11 @@ class Section extends Component {
       section
     } = this.state;
 
-    debugger;
-
     return (
       <div className="Section">
         {section.name}
         {section.fields.map(fieldId => (
-          <Field fieldId={fieldId} key={`field-${fieldId}`}/>
+          <Field fieldId={fieldId} sectionId={section.id} key={`field-${fieldId}`}/>
         ))}
         <div className="add-field">
           <button onClick={e => this.props.addField(section.id)}>Add Field</button>

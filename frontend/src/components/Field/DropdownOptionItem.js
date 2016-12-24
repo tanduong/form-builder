@@ -4,6 +4,7 @@ import { Field } from 'src/components/Field';
 import { fieldSelector } from 'src/selectors';
 import Select from 'react-select';
 import { sectionsAvailableSelector } from 'src/selectors';
+import { removeOption } from 'src/actions';
 
 class DropdownOptionItem extends Component {
   constructor(props) {
@@ -15,14 +16,16 @@ class DropdownOptionItem extends Component {
         label,
         triggerSectionId: selected
       },
-      sections
+      sections,
+      fieldId
     } = props;
 
     this.state = {
       id,
       label,
       sections,
-      selected
+      selected,
+      fieldId
     };
   }
 
@@ -31,7 +34,8 @@ class DropdownOptionItem extends Component {
       id,
       label,
       sections,
-      selected
+      selected,
+      fieldId
     } = this.state;
 
     return (
@@ -50,6 +54,7 @@ class DropdownOptionItem extends Component {
             }}
           />
         </div>
+        <button onClick={() => this.props.removeOption(id, fieldId) }>&times;</button>
       </li>
     )
   }
@@ -61,12 +66,14 @@ const mapStateToProps = (state, ownProps) => {
   return {
     sections:
       ids
+        .filter(id => records[id].name !== 'Main')
         .map(id => ({
           value: records[id].id,
-          label: records[id].name,
+          label: `Add Section: ${records[id].name}`,
         }))
-        .filter(({label}) => label !== 'Main')
   };
 }
 
-export default connect(mapStateToProps, {})(DropdownOptionItem);
+export default connect(mapStateToProps, {
+  removeOption
+})(DropdownOptionItem);

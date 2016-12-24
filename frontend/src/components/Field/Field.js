@@ -6,6 +6,7 @@ import Select from 'react-select';
 import { fieldSelector } from 'src/selectors';
 import { changeFieldType } from 'src/actions';
 import DropdownOption from './DropdownOption';
+import { removeField } from 'src/actions';
 
 class Field extends Component {
   static propTypes = {
@@ -90,7 +91,8 @@ class Field extends Component {
     } = this.state;
 
     const {
-      changeFieldType
+      changeFieldType,
+      sectionId
     } = this.props;
 
     return (
@@ -126,11 +128,12 @@ class Field extends Component {
               }}
             />
           </div>
+          <button onClick={() => this.props.removeField(id, sectionId) }>&times;</button>
         </div>
 
         {this.showOptions(type) &&
           <div className="field-options">
-            <DropdownOption options={configs.options}></DropdownOption>
+            <DropdownOption options={configs.options} fieldId={id}></DropdownOption>
           </div>
         }
       </div>
@@ -145,5 +148,6 @@ const mapStateToProps = (state, { fieldId }) => {
 }
 
 export default connect(mapStateToProps, {
-  changeFieldType
+  changeFieldType,
+  removeField
 })(Field);

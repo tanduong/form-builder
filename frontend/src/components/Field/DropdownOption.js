@@ -9,13 +9,14 @@ class DropdownOption extends Component {
 
   render() {
     const {
-      options
+      options,
+      fieldId
     } = this.props;
 
     return (
       <ul className="DropdownOption">
         {options.map(option => (
-          <DropdownOptionItem option={option} key={`option-item-${option.id}`}/>
+          <DropdownOptionItem option={option} fieldId={fieldId} key={`option-item-${option.id}`}/>
         ))}
       </ul>
     )
