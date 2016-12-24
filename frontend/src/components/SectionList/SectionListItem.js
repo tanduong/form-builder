@@ -1,26 +1,18 @@
-import './section.scss';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Field } from 'src/components/Field';
 import { sectionSelector } from 'src/selectors';
 
-class Section extends Component {
-  static propTypes = {
-    children: PropTypes.node
-  };
-
+class SectionListItem extends Component {
   render() {
     const {
       section
     } = this.props;
 
     return (
-      <div className="Section">
+      <li className="SectionListItem">
         {section.name}
-        {section.fields.map(fieldId => (
-          <Field fieldId={fieldId} key={`field-${fieldId}`}/>
-        ))}
-      </div>
+      </li>
     )
   }
 }
@@ -31,4 +23,4 @@ const mapStateToProps = (state, { sectionId }) => {
   };
 }
 
-export default connect(mapStateToProps, {})(Section);
+export default connect(mapStateToProps, {})(SectionListItem);

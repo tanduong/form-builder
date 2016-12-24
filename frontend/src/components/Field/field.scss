@@ -1,0 +1,21 @@
+.Field {
+  .row {
+    display: flex;
+  }
+  border: 1px solid cyan;
+
+  .field-sample,
+  .field-type,
+  .field-is-required {
+    flex: 1;
+  }
+}
+
+.DropdownOptionItem {
+  display: flex;
+
+  .option-item-label,
+  .option-item-trigger {
+    flex: 1;
+  }
+}

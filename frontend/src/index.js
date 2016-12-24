@@ -14,16 +14,19 @@ const preloadedState = {
     sections: {
       records: {
         1: {
+          id: 1,
           type: "Standard",
           name: "Main",
           fields: [1, 2]
         },
         2: {
+          id: 2,
           type: "Conditional",
           name: "Section A",
           fields: [3, 4]
         },
         3: {
+          id: 3,
           type: "Conditional",
           name: "Section B",
           fields: [5]
@@ -34,40 +37,50 @@ const preloadedState = {
     fields: {
       records: {
         1: {
-          type: "TextInput",
+          id: 1,
+          type: "Text",
           label: "Name",
           isRequired: true,
         },
         2: {
+          id: 2,
           type: "Dropdown",
           label: "Trigger",
           isRequired: true,
-          values: ["trigger A", "trigger B"],
-          triggers: {
-            "trigger A": 2,
-            "trigger B": 3,
-          }
+          configs: {
+            optionGroup: 1,
+            options: [
+              { id: 1, value: 'one', label: 'One', triggerSectionId: 2 },
+              { id: 2, value: 'two', label: 'Two', triggerSectionId: 3 }
+            ]
+          },
+          defaultValue: 'one'
         },
         3: {
-          type: "TextInput",
+          id: 3,
+          type: "Text",
           label: "Name 3",
           isRequired: true,
         },
         4: {
-          type: "TextInput",
+          id: 4,
+          type: "Text",
           label: "Name 4",
           isRequired: true,
         },
         5: {
+          id: 5,
           type: "TextInput",
           label: "Name 5",
           isRequired: true,
         },
-      }
+      },
+      ids: [1, 2, 3, 4, 5]
     },
     prebuiltFields: {
       records: {
         1: {
+          id: 1,
           name: "Country",
           type: "TextInput",
           label: "Country",

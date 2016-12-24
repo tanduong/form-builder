@@ -111,6 +111,7 @@ module.exports = {
           /\.html$/,
           /\.(js|jsx)$/,
           /\.css$/,
+          /\.scss$/,
           /\.json$/,
           /\.svg$/
         ],
@@ -139,7 +140,13 @@ module.exports = {
       // In production, we use a plugin to extract that CSS to a file, but
       // in development "style" loader enables hot editing of CSS.
       {
-        test: /\.(css|scss)$/,
+        test: /\.css$/,
+        loader: 'style!css?importLoaders=1!postcss'
+      },
+
+      {
+        test: /\.scss$/,
+        include: paths.appSrc,
         loader: 'style!css?importLoaders=1!postcss!sass'
       },
 

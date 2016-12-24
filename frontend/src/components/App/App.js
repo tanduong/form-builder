@@ -3,7 +3,9 @@ import "./App.scss";
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { resetErrorMessage } from 'src/actions';
-import Section from 'src/components/Section';
+import Form from 'src/components/Form';
+import SectionList from 'src/components/SectionList';
+import PrebuiltFieldList from 'src/components/PrebuiltFieldList';
 
 class App extends Component {
   static propTypes = {
@@ -40,7 +42,13 @@ class App extends Component {
       <div className="App">
         {this.renderErrorMessage()}
         Hello
-        <Section/>
+        <main>
+          <Form/>
+        </main>
+        <aside>
+          <SectionList></SectionList>
+          <PrebuiltFieldList></PrebuiltFieldList>
+        </aside>
       </div>
     )
   }
