@@ -1,7 +1,7 @@
 import './section.scss';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Field } from 'src/components/Field';
+import Field from 'src/components/Field';
 import { sectionSelector } from 'src/selectors';
 import { addField } from 'src/actions';
 
@@ -29,7 +29,6 @@ class Section extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    debugger;
     if (this.props.section.fields !== nextProps.section.fields) {
       return true;
     }

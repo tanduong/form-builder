@@ -3,10 +3,13 @@ import { connect } from 'react-redux';
 import { Field } from 'src/components/Field';
 import { fieldSelector } from 'src/selectors';
 import Select from 'react-select';
-import { sectionsAvailableSelector } from 'src/selectors';
+import {
+  sectionsAvailableSelector,
+  optionSelector
+} from 'src/selectors';
 import { removeOption } from 'src/actions';
 
-class DropdownOptionItem extends Component {
+class Option extends Component {
   constructor(props) {
     super(props);
 
@@ -39,7 +42,7 @@ class DropdownOptionItem extends Component {
     } = this.state;
 
     return (
-      <li className="DropdownOptionItem">
+      <li className="Option">
         <div className="option-item-label">
           {label}
         </div>
@@ -60,10 +63,14 @@ class DropdownOptionItem extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, {optionId}) => {
   const { ids, records } = sectionsAvailableSelector(state);
-
+  console.log(state)
+  const x = optionSelector(state, optionId);
+  console.log(x);
+  debugger;
   return {
+    option: optionSelector(state, optionId),
     sections:
       ids
         .filter(id => records[id].name !== 'Main')
@@ -76,4 +83,4 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
   removeOption
-})(DropdownOptionItem);
+})(Option);

@@ -49,10 +49,7 @@ const preloadedState = {
           isRequired: true,
           configs: {
             optionGroup: 1,
-            options: [
-              { id: 1, value: 'one', label: 'One', triggerSectionId: 2 },
-              { id: 2, value: 'two', label: 'Two', triggerSectionId: 3 }
-            ]
+            options: [1, 2]
           },
           defaultValue: 'one'
         },
@@ -76,6 +73,13 @@ const preloadedState = {
         },
       },
       ids: [1, 2, 3, 4, 5]
+    },
+    options: {
+      records: {
+        1: { id: 1, value: 'one', label: 'One', triggerSectionId: 2 },
+        2: { id: 2, value: 'two', label: 'Two', triggerSectionId: 3 }
+      },
+      ids: [1, 2]
     },
     prebuiltFields: {
       records: {

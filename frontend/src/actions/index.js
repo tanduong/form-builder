@@ -39,11 +39,19 @@ export const removeField = (fieldId, sectionId) => ({
   sectionId,
 });
 
+export const ADD_OPTION = 'ADD_OPTION';
+
+export const addOption = (fieldId) => ({
+  type: ADD_OPTION,
+  fieldId,
+  id: uuidV4()
+});
+
 export const REMOVE_OPTION = 'REMOVE_OPTION';
 
-export const removeOption = (optionId, fieldId) => ({
+export const removeOption = (id, fieldId) => ({
   type: REMOVE_OPTION,
-  optionId,
+  id,
   fieldId
 });
 

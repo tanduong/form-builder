@@ -8,6 +8,10 @@ export const fieldSelector = ({ entities: { fields } }, fieldId) => (
   fields.records[fieldId]
 );
 
+export const optionSelector = ({ entities: { options } }, optionId) => (
+  options.records[optionId]
+);
+
 export const prebuiltFieldSelector = (
   {
     entities: {

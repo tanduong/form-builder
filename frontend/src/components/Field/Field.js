@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { fieldSelector } from 'src/selectors';
 import { changeFieldType } from 'src/actions';
-import DropdownOption from './DropdownOption';
+import OptionList from 'src/components/OptionList';
 import { removeField } from 'src/actions';
 
 class Field extends Component {
@@ -65,18 +65,22 @@ class Field extends Component {
   componentWillReceiveProps(newProps) {
     const {
       field: {
+        id,
         type,
         label,
         configs,
         isRequired,
+        defaultValue: value,
       }
     } = newProps;
 
     this.setState({
+      id,
       type,
       label,
       configs,
       isRequired,
+      value,
     });
   }
 
@@ -133,7 +137,7 @@ class Field extends Component {
 
         {this.showOptions(type) &&
           <div className="field-options">
-            <DropdownOption options={configs.options} fieldId={id}></DropdownOption>
+            <OptionList options={configs.options} fieldId={id}/>
           </div>
         }
       </div>
