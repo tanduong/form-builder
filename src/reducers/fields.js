@@ -29,7 +29,13 @@ const handleAction = {
     fieldId,
     updatedData
   }) => {
-    const newRecord = {
+    let newRecord = {};
+    if(updatedData[type]) {
+      newRecord = defaultConfigs[updatedData[type]];
+    }
+
+    newRecord = {
+      ...newRecord,
       ...records[fieldId],
       ...updatedData
     };
