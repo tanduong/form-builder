@@ -30,8 +30,8 @@ const handleAction = {
     updatedData
   }) => {
     let newRecord = {};
-    if(updatedData[type]) {
-      newRecord = defaultConfigs[updatedData[type]];
+    if(updatedData.type) {
+      newRecord = defaultConfigs[updatedData.type];
     }
 
     newRecord = {
