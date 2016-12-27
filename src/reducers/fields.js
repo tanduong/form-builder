@@ -30,13 +30,13 @@ const handleAction = {
     updatedData
   }) => {
     let newRecord = {};
-    if(updatedData.type) {
+    if(updatedData.hasOwnProperty('type')) {
       newRecord = defaultConfigs[updatedData.type];
     }
 
     newRecord = {
-      ...newRecord,
       ...records[fieldId],
+      ...newRecord,
       ...updatedData
     };
 
