@@ -89,9 +89,20 @@ const preloadedState = {
           type: "TextInput",
           label: "Country",
           isRequired: true,
+        },
+        2: {
+          id: 1,
+          name: "Goals",
+          type: "Dropdown",
+          label: "Goals",
+          isRequired: true,
+          configs: {
+            optionGroup: 2,
+            options: [1, 2]
+          },
         }
       },
-      ids: [1]
+      ids: [1, 2]
     }
   }
 };
