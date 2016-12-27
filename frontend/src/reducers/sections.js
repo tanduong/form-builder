@@ -1,5 +1,6 @@
 import {
   ADD_SECTION,
+  REMOVE_SECTION,
   ADD_FIELD,
   REMOVE_FIELD
 } from 'src/actions';
@@ -22,6 +23,20 @@ const handleAction = {
         }
       },
       ids: [].concat(ids, [id])
+    }
+  },
+
+  [REMOVE_SECTION]: ({
+      records,
+      ids
+    }, {
+      id
+    }) => {
+    const newRecords = Object.assign({}, records);
+    delete newRecords[id];
+    return {
+      records: newRecords,
+      ids: ids.filter(sectionId => sectionId !== id)
     }
   },
   [ADD_FIELD]: ({
@@ -48,12 +63,12 @@ const handleAction = {
     records,
     ids
   }, {
-    fieldId,
+    id,
     sectionId
   }) => {
     const updatedSection = {
       ...records[sectionId],
-      fields: records[sectionId].fields.filter(id =>  fieldId != id)
+      fields: records[sectionId].fields.filter(fieldId =>  fieldId != id)
     };
 
     return {

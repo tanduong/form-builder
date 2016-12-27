@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { fieldSelector } from 'src/selectors';
-import { changeFieldType } from 'src/actions';
+import { changeFieldType, changeFieldLabel } from 'src/actions';
 import OptionList from 'src/components/OptionList';
 import { removeField } from 'src/actions';
 
@@ -102,7 +102,9 @@ class Field extends Component {
     return (
       <div className="Field">
         <div className="row">
-          <label htmlFor="">{label}</label>
+          <input type="text" defaultValue={label} onChange={(e) => {
+                changeFieldLabel(id, e.target.value)
+              }}/>
           <div className="field-sample">
             { this.getInput({ id, type, value, configs }) }
           </div>
@@ -152,6 +154,7 @@ const mapStateToProps = (state, { fieldId }) => {
 }
 
 export default connect(mapStateToProps, {
+  changeFieldLabel,
   changeFieldType,
   removeField
 })(Field);

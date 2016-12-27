@@ -31,9 +31,7 @@ class Form extends Component {
       sections
     } = props;
 
-    console.log(form === this.state.form);
-
-    this.setState({
+    this.setState ({
       form,
       sections
     });
@@ -56,6 +54,7 @@ class Form extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(sectionIdsAvailableSelector(state));
   return {
     form: formSelector(state),
     sections: sectionIdsAvailableSelector(state)

@@ -65,10 +65,8 @@ class Option extends Component {
 
 const mapStateToProps = (state, {optionId}) => {
   const { ids, records } = sectionsAvailableSelector(state);
-  console.log(state)
   const x = optionSelector(state, optionId);
-  console.log(x);
-  debugger;
+
   return {
     option: optionSelector(state, optionId),
     sections:

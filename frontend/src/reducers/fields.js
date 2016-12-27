@@ -1,4 +1,4 @@
-import { CHANGE_FIELD_TYPE } from 'src/actions';
+import { CHANGE_FIELD } from 'src/actions';
 import { ADD_FIELD, ADD_OPTION, REMOVE_OPTION } from 'src/actions';
 
 const TEXT_INPUT = 'Text';
@@ -22,19 +22,16 @@ const defaultField = {
 };
 
 const handleAction = {
-  [CHANGE_FIELD_TYPE]: ({
+  [CHANGE_FIELD]: ({
     records,
     ids
   }, {
     fieldId,
-    newFieldType
+    updatedData
   }) => {
     const newRecord = {
-      ...defaultConfigs[newFieldType],
-      id: fieldId,
-      label: records[fieldId].label,
-      isRequired: records[fieldId].isRequired,
-      type: newFieldType
+      ...records[fieldId],
+      ...updatedData
     };
 
     return {
@@ -49,13 +46,15 @@ const handleAction = {
     records,
     ids
   }, {
-    id
+    id,
+    settings
   }) => {
     return {
       records: {
         ...records,
         [id]: {
           ...defaultField,
+          ...settings,
           id
         }
       },
@@ -105,7 +104,6 @@ const handleAction = {
     const record = records[fieldId];
 
     if(record.type !== DROPDOWN) {
-      debugger;
       return {
         records,
         ids
@@ -118,9 +116,6 @@ const handleAction = {
         options: record.configs.options.filter(optionId => optionId !== id)
       }
     };
-
-    console.log(updatedRecord);
-    debugger;
 
     return {
       records: {
