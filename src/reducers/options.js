@@ -1,5 +1,5 @@
 // REMOVE_OPTION
-import { ADD_OPTION } from 'src/actions';
+import { ADD_OPTION, CHANGE_OPTION } from 'src/actions';
 
 const handleAction = {
   [ADD_OPTION]: ({
@@ -10,9 +10,10 @@ const handleAction = {
   }) => {
     const newOption = {
       id,
-      value: 'two',
-      label: 'Two',
-      triggerSectionId: null
+      // What value this should be?
+      value: 'xxx',
+      name: 'Untitled option',
+      triggerSectionId: -1
     };
 
     return {
@@ -22,7 +23,28 @@ const handleAction = {
       },
       ids: [...ids, id]
     }
-  }
+  },
+
+  [CHANGE_OPTION]: ({
+    records,
+    ids
+  }, {
+    id,
+    updatedData
+  }) => {
+    let newRecord = {
+      ...records[id],
+      ...updatedData
+    };
+
+    return {
+      records: {
+        ...records,
+        [id]: newRecord
+      },
+      ids
+    }
+  },
 };
 
 export default (state = {}, action) => (

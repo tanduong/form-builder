@@ -24,7 +24,7 @@ class PrebuiltFieldListItem extends Component {
 
     return connectDragSource(
       <li className="PrebuiltFieldListItem">
-        {prebuiltField.label}
+        {prebuiltField.name}
       </li>
     );
   }
@@ -38,7 +38,7 @@ const mapStateToProps = (state, { prebuiltFieldId }) => {
 
 export default compose(
   connect(mapStateToProps, {}),
-  DragSource('Field', prebuiltFieldSource, (connect, monitor) => ({
+  DragSource('PrebuiltField', prebuiltFieldSource, (connect, monitor) => ({
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
   }))

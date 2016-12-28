@@ -1,5 +1,18 @@
 .Option {
   display: flex;
+  // cursor: pointer;
+  // cursor: hand;
+  cursor: grab;
+
+  &:active {
+    // cursor: pointer;
+    // cursor: hand;
+    cursor: grabbing;
+  }
+
+  &.Option--insert {
+    border-bottom: 3px solid blue;
+  }
 
   .option-item-label,
   .option-item-trigger {

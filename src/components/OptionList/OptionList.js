@@ -14,12 +14,15 @@ class OptionList extends Component {
       options,
       fieldId
     } = this.props;
+    console.log(options);
 
     return (
       <ul className="OptionList">
-        {options.map(optionId => (
-          <Option optionId={optionId} fieldId={fieldId} key={`option-item-${optionId}`}/>
-        ))}
+        {options.map((optionId, index) => {
+          console.log(optionId);
+          return <Option optionId={optionId} fieldId={fieldId} key={`option-item-${optionId}`} index={index}/>
+        }
+        )}
         <li className="add-field">
           <button onClick={e => this.props.addOption(fieldId)}>Add Option</button>
         </li>

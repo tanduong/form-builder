@@ -4,6 +4,10 @@
   }
   border: 1px solid cyan;
 
+  &--insert {
+    border-bottom: 3px solid blue;
+  }
+
   .field-sample,
   .field-type,
   .field-is-required {

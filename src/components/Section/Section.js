@@ -4,12 +4,24 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Field from 'src/components/Field';
 import { sectionSelector } from 'src/selectors';
-import { addField, removeSection } from 'src/actions';
+import { addField, removeSection, dragFieldDrop } from 'src/actions';
 import { DropTarget } from 'react-dnd';
 
 const prebuiltFieldTarget = {
-  drop(props, monitor) {
-    props.addField(props.section.id, monitor.getItem().item);
+  drop({
+    dragFieldDrop,
+    addField,
+    section
+  }, monitor) {
+    const itemType = monitor.getItemType();
+    const item = monitor.getItem().item;
+    if(itemType === 'Field') {
+      // return monitor.isOver({shallow: true});
+      // section.fields
+      dragFieldDrop(undefined, section.id, item.field.id, item.sectionId);
+    } else {
+      addField(section.id, monitor.getItem().item);
+    }
   },
 
   hover(props, monitor, component) {
@@ -19,6 +31,10 @@ const prebuiltFieldTarget = {
 
   canDrop(props, monitor) {
     const item = monitor.getItem();
+    const itemType = monitor.getItemType();
+    if(itemType === 'Field') {
+      return monitor.isOver({shallow: true});
+    }
     return true;
   }
 };
@@ -76,7 +92,7 @@ class Section extends Component {
         {section.fields.map(fieldId => (
           <Field fieldId={fieldId} sectionId={section.id} key={`field-${fieldId}`}/>
         ))}
-        {isOver ?
+        {canDrop ?
           <div>Can drop</div>
           :
           <div className="add-field">
@@ -97,11 +113,14 @@ const mapStateToProps = (state, { sectionId }) => {
 export default compose(
   connect(mapStateToProps, {
     addField,
-    removeSection
+    removeSection,
+    dragFieldDrop
   }),
-  DropTarget('Field', prebuiltFieldTarget, (connect, monitor) => ({
+  DropTarget(['PrebuiltField', 'Field'], prebuiltFieldTarget, (connect, monitor) => ({
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
+    isOverShallow: monitor.isOver({shallow: true}),
+    item: monitor.getItem(),
     canDrop: monitor.canDrop()
   }))
 )(Section);

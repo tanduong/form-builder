@@ -1,14 +1,16 @@
 import { CHANGE_FIELD } from 'src/actions';
-import { ADD_FIELD, ADD_OPTION, REMOVE_OPTION } from 'src/actions';
+import { ADD_FIELD, ADD_OPTION, REMOVE_OPTION, DRAG_OPTION_DROP } from 'src/actions';
 
 const TEXT_INPUT = 'Text';
 const DROPDOWN = 'Dropdown';
 
 const defaultConfigs = {
   [TEXT_INPUT]: {
+    name: 'Untitled field',
     configs: {}
   },
   [DROPDOWN]: {
+    name: 'Untitled field',
     configs: {
       options: [
       ]
@@ -129,6 +131,75 @@ const handleAction = {
         [fieldId]: updatedRecord
       },
       ids
+    }
+  },
+  [DRAG_OPTION_DROP]: ({
+    records,
+    ids
+  }, {
+    id,
+    fieldId,
+    dropedOptionId,
+    dropedOptionFieldId
+  }) => {
+    let field;
+    let newField;
+
+    if(fieldId === dropedOptionFieldId) {
+      field = records[fieldId];
+
+      newField = {
+        ...field,
+        configs: {
+          ...field.configs,
+          options: [].concat(...field.configs.options.map(_id => {
+            if(_id === id) {
+              return [id, dropedOptionId];
+            }
+
+            if(_id === dropedOptionId) {
+              return [];
+            }
+
+            return _id;
+          }))
+        }
+      }
+      return {
+        records: {
+          ...records,
+          [fieldId]: newField
+        },
+        ids
+      };
+    } else {
+      field = records[fieldId];
+      newField = {
+        ...field,
+        configs: {
+          ...field.configs,
+          options: [].concat(...field.configs.options.map(_id =>
+            _id === id ? [id, dropedOptionId] : _id
+          ))
+        }
+      };
+      let dropedOptionField = records[dropedOptionFieldId];
+      let newDropedOptionField = {
+        ...dropedOptionField,
+        configs: {
+          ...dropedOptionField.configs,
+          options: dropedOptionField.configs.options.filter(_id => _id !== dropedOptionId)
+        }
+      }
+
+      return {
+        records: {
+          ...records,
+          [fieldId]: newField,
+          [dropedOptionFieldId]: newDropedOptionField
+        },
+        ids
+      }
     }
   }
 };

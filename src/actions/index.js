@@ -17,11 +17,19 @@ export const changeFieldType = (fieldId, type) => ({
   }
 });
 
-export const changeFieldLabel = (fieldId, label) => ({
+export const changeFieldName = (fieldId, name) => ({
   type: CHANGE_FIELD,
   fieldId,
   updatedData: {
-    label
+    name
+  }
+});
+
+export const changeFieldIsRequired = (fieldId, isRequired) => ({
+  type: CHANGE_FIELD,
+  fieldId,
+  updatedData: {
+    isRequired
   }
 });
 
@@ -73,4 +81,32 @@ export const removeOption = (id, fieldId) => ({
   fieldId
 });
 
+export const CHANGE_OPTION = 'CHANGE_OPTION';
 
+export const changeOptionName = (id, name) => ({
+  type: CHANGE_OPTION,
+  id,
+  updatedData: {
+    name
+  }
+});
+
+export const DRAG_OPTION_DROP = 'DRAG_OPTION_DROP';
+
+export const dragOptionDrop = (id, fieldId, dropedOptionId, dropedOptionFieldId) => ({
+  type: DRAG_OPTION_DROP,
+  id,
+  fieldId,
+  dropedOptionId,
+  dropedOptionFieldId
+});
+
+export const DRAG_FIELD_DROP = 'DRAG_FIELD_DROP';
+
+export const dragFieldDrop = (id, sectionId, dropedFieldId, dropedFieldSectionId) => ({
+  type: DRAG_FIELD_DROP,
+  id,
+  sectionId,
+  dropedFieldId,
+  dropedFieldSectionId
+});

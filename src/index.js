@@ -39,13 +39,13 @@ const preloadedState = {
         1: {
           id: 1,
           type: "Text",
-          label: "Name",
+          name: "Name",
           isRequired: true,
         },
         2: {
           id: 2,
           type: "Dropdown",
-          label: "Trigger",
+          name: "Trigger",
           isRequired: true,
           configs: {
             optionGroup: 1,
@@ -56,19 +56,19 @@ const preloadedState = {
         3: {
           id: 3,
           type: "Text",
-          label: "Name 3",
+          name: "Name 3",
           isRequired: true,
         },
         4: {
           id: 4,
           type: "Text",
-          label: "Name 4",
+          name: "Name 4",
           isRequired: true,
         },
         5: {
           id: 5,
           type: "TextInput",
-          label: "Name 5",
+          name: "Name 5",
           isRequired: true,
         },
       },
@@ -76,8 +76,8 @@ const preloadedState = {
     },
     options: {
       records: {
-        1: { id: 1, value: 'one', label: 'One', triggerSectionId: 2 },
-        2: { id: 2, value: 'two', label: 'Two', triggerSectionId: 3 }
+        1: { id: 1, value: 'one', name: 'One', triggerSectionId: 2 },
+        2: { id: 2, value: 'two', name: 'Two', triggerSectionId: 3 }
       },
       ids: [1, 2]
     },
@@ -87,14 +87,14 @@ const preloadedState = {
           id: 1,
           name: "Country",
           type: "TextInput",
-          label: "Country",
+          name: "Country",
           isRequired: true,
         },
         2: {
           id: 1,
           name: "Goals",
           type: "Dropdown",
-          label: "Goals",
+          name: "Goals",
           isRequired: true,
           configs: {
             optionGroup: 2,

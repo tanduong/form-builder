@@ -2,7 +2,8 @@ import {
   ADD_SECTION,
   REMOVE_SECTION,
   ADD_FIELD,
-  REMOVE_FIELD
+  REMOVE_FIELD,
+  DRAG_FIELD_DROP
 } from 'src/actions';
 
 const handleAction = {
@@ -79,6 +80,75 @@ const handleAction = {
       ids
     };
   },
+    [DRAG_FIELD_DROP]: ({
+    records,
+    ids
+  }, {
+    id,
+    sectionId,
+    dropedFieldId,
+    dropedFieldSectionId
+  }) => {
+    let section;
+    let newSection;
+
+    if(sectionId === dropedFieldSectionId) {
+      section = records[sectionId];
+
+      newSection = {
+        ...section,
+        fields: [].concat(...section.fields.map(_id => {
+          if(_id === id) {
+            return [id, dropedFieldId];
+          }
+
+          if(_id === dropedFieldId) {
+            return [];
+          }
+
+          return _id;
+        }))
+      };
+
+      return {
+        records: {
+          ...records,
+          [sectionId]: newSection
+        },
+        ids
+      };
+    } else {
+      section = records[sectionId];
+      if(section.fields.indexOf(dropedFieldId) > -1) {
+        newSection = {
+          ...section,
+          fields: [].concat(...section.fields.map(_id =>
+            _id === id ? [id, dropedFieldId] : _id
+          ))
+        };
+      } else {
+        newSection = {
+          ...section,
+          fields: [].concat(section.fields, [dropedFieldId])
+        };
+      }
+
+      let dropedFieldSection = records[dropedFieldSectionId];
+      let newDropedFieldSection = {
+        ...dropedFieldSection,
+        fields: dropedFieldSection.fields.filter(_id => _id !== dropedFieldId)
+      }
+
+      return {
+        records: {
+          ...records,
+          [sectionId]: newSection,
+          [dropedFieldSectionId]: newDropedFieldSection
+        },
+        ids
+      };
+    }
+  }
 };
 
 export default (state = {}, action) => (

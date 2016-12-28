@@ -4,9 +4,54 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { fieldSelector } from 'src/selectors';
-import { changeFieldType, changeFieldLabel } from 'src/actions';
+import { changeFieldType, changeFieldName, changeFieldIsRequired } from 'src/actions';
 import OptionList from 'src/components/OptionList';
 import { removeField } from 'src/actions';
+
+import {
+  dragFieldDrop
+} from 'src/actions';
+
+import { compose } from 'redux';
+import { DragSource } from 'react-dnd';
+import { DropTarget } from 'react-dnd';
+
+const fieldSource = {
+  beginDrag({
+    field,
+    sectionId
+  }) {
+    return {
+      item: {
+        field,
+        sectionId
+      },
+    };
+  }
+};
+
+const fieldTarget = {
+  drop({
+    dragFieldDrop,
+    field,
+    sectionId
+  }, monitor) {
+    const item = monitor.getItem().item;
+    dragFieldDrop(field.id, sectionId, item.field.id, item.sectionId);
+  },
+
+  canDrop(props, monitor) {
+    const item = monitor.getItem().item;
+    if(!props.field) {
+      return false;
+    }
+
+    if(!item.field) {
+      return false;
+    }
+    return item.field.id !== props.field.id;
+  }
+};
 
 class Field extends Component {
   static propTypes = {
@@ -19,7 +64,7 @@ class Field extends Component {
       field: {
         id,
         type,
-        label,
+        name,
         configs,
         isRequired,
         defaultValue: value,
@@ -29,7 +74,7 @@ class Field extends Component {
     this.state = {
       id,
       type,
-      label,
+      name,
       configs: configs || {},
       value,
       isRequired,
@@ -37,6 +82,7 @@ class Field extends Component {
   }
 
   getInput({ id, type, value, configs }) {
+    return null;
     console.log(type);
     switch(type) {
       case 'Text':
@@ -67,7 +113,7 @@ class Field extends Component {
       field: {
         id,
         type,
-        label,
+        name,
         configs,
         isRequired,
         defaultValue: value,
@@ -77,7 +123,7 @@ class Field extends Component {
     this.setState({
       id,
       type,
-      label,
+      name,
       configs,
       isRequired,
       value,
@@ -88,7 +134,7 @@ class Field extends Component {
     const {
       id,
       type,
-      label,
+      name,
       configs,
       value,
       isRequired,
@@ -96,14 +142,21 @@ class Field extends Component {
 
     const {
       changeFieldType,
-      sectionId
+      sectionId,
+      connectDropTarget,
+      connectDragSource,
+      isOver,
+      canDrop,
     } = this.props;
 
-    return (
-      <div className="Field">
+    return connectDropTarget(connectDragSource(
+      <div className={`
+        Field
+        ${ isOver && canDrop ? "Field--insert" : ""}
+      `}>
         <div className="row">
-          <input type="text" defaultValue={label} onChange={(e) => {
-                changeFieldLabel(id, e.target.value)
+          <input type="text" defaultValue={name} onChange={(e) => {
+                changeFieldName(id, e.target.value)
               }}/>
           <div className="field-sample">
             { this.getInput({ id, type, value, configs }) }
@@ -122,17 +175,18 @@ class Field extends Component {
             />
           </div>
           <div className="field-is-required">
-            <Select
-              name={`filed-is-required-${id}`}
-              options={[
-                { value: true, label: 'True' },
-                { value: false, label: 'False' }
-              ]}
-              value={isRequired}
-              onChange={({value: isRequired}) => {
-                this.setState({isRequired});
-              }}
-            />
+            <label htmlFor={`filed-is-required-${id}`}>
+              <input
+                defaultValue={isRequired}
+                type="checkbox"
+                id={`filed-is-required-${id}`}
+                onChange={e => {
+                  console.log(!!e.target.checked);
+                  this.props.changeFieldIsRequired(id, !!e.target.checked);
+                }}
+              />
+              Required?
+            </label>
           </div>
           <button onClick={() => this.props.removeField(id, sectionId) }>&times;</button>
         </div>
@@ -143,7 +197,7 @@ class Field extends Component {
           </div>
         }
       </div>
-    )
+    ));
   }
 }
 
@@ -153,8 +207,21 @@ const mapStateToProps = (state, { fieldId }) => {
   };
 }
 
-export default connect(mapStateToProps, {
-  changeFieldLabel,
-  changeFieldType,
-  removeField
-})(Field);
+export default compose(
+  connect(mapStateToProps, {
+    changeFieldName,
+    changeFieldType,
+    changeFieldIsRequired,
+    removeField,
+    dragFieldDrop
+  }),
+  DropTarget('Field', fieldTarget, (connect, monitor) => ({
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
+    canDrop: monitor.canDrop(),
+  })),
+  DragSource('Field', fieldSource, (connect, monitor) => ({
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  }))
+)(Field);

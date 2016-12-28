@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "express": "^4.14.0",
+    "lodash.debounce": "^4.0.8",
     "normalize.css": "^5.0.0",
     "react": "^15.4.1",
     "react-dnd-html5-backend": "^2.1.2",
